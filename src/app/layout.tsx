@@ -1,15 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Barlow_Condensed, Kalam, Literata, Young_Serif } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const youngSerif = Young_Serif({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-young-serif",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const literata = Literata({
   subsets: ["latin"],
+  style: ["normal", "italic"],
+  variable: "--font-literata",
+});
+
+const kalam = Kalam({
+  weight: ["300", "400"],
+  subsets: ["latin"],
+  variable: "--font-kalam",
+});
+
+const barlow = Barlow_Condensed({
+  weight: ["500", "600"],
+  subsets: ["latin"],
+  variable: "--font-barlow",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${youngSerif.variable} ${literata.variable} ${kalam.variable} ${barlow.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

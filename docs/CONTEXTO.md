@@ -88,7 +88,8 @@ Referencia visual y de flujos: [`docs/prototipo/libro-de-casa.html`](prototipo/l
 - **Colores:** hule `#2446B0`, papel `#FDFBF6`, tinta `#14203A`, bolígrafo azul `#1D3A98` (voz de mamá), tomate `#D2402A` (dudas y acción principal), mostaza `#B8860B`, verde `#2F7A58`. Un solo tema claro, a propósito.
 - **Tipografía:** Young Serif (títulos), Literata (cuerpo), Kalam (manuscrito del original), Barlow Condensed (etiquetas en mayúsculas).
 - **Detalles de libro:** índice con puntos y folio, cabecera de página con origen y número, pestañas de papel, dudas con subrayado ondulado rojo.
-- **Accesibilidad:** foco visible, contraste legible, respetar `prefers-reduced-motion`.
+- **Accesibilidad:** foco visible, contraste legible, respetar `prefers-reduced-motion`. Contraste de tomate sobre papel ≈ 4,5:1 (justo en el límite AA para texto pequeño). **La mostaza solo se usa en puntos y formas, nunca en texto** (≈ 3,2:1).
+- **Implementación:** tokens en `src/app/globals.css` (`@theme`), fuentes con `next/font` en `src/app/layout.tsx`, muestra viva en la ruta `/diseno`. Columna de libro de 430 px centrada sobre el mantel también en escritorio.
 - El prototipo se hizo sin revisión visual renderizada: puede tener defectos de maquetación. Es referencia, no especificación píxel a píxel.
 
 ## 9. Privacidad
@@ -107,6 +108,8 @@ La **fabada de mamá** (texto de WhatsApp real, con faltas como "cuéce" y "apad
 Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas, genero el mensaje para mamá, guardo una respuesta y la receta aparece en el índice con su número de página.
 
 ## 12. Plan de Fase 1 (un PR por paso)
+
+**Estado (2026-11-13):** pasos 1 y 2 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Paso 3 en curso. La cuenta de la API de Anthropic se crea en el paso 6, no antes.
 
 | # | Paso | Cómo se prueba |
 |---|---|---|
