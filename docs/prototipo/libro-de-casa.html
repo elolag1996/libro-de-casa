@@ -1,0 +1,538 @@
+<title>Libro de casa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Literata:ital,wght@0,400;0,600;1,400&family=Kalam:wght@300;400&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --hule:#2446B0;
+  --ground:#F5F8FE;
+  --paper:#FDFBF6;
+  --paper-edge:#E6E0D2;
+  --ink:#14203A;
+  --ink-soft:#4B5672;
+  --pen:#1D3A98;
+  --tomato:#D2402A;
+  --mustard:#B8860B;
+  --green:#2F7A58;
+  --line:rgba(20,32,58,.16);
+  --f-display:'Young Serif',Georgia,serif;
+  --f-body:'Literata',Georgia,serif;
+  --f-hand:'Kalam','Segoe Print',cursive;
+  --f-label:'Barlow Condensed','Arial Narrow',sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font:400 16px/1.55 var(--f-body);
+  color:var(--ink);
+  background-color:var(--ground);
+  background-image:
+    linear-gradient(90deg,rgba(36,70,176,.46) 50%,transparent 50%),
+    linear-gradient(rgba(36,70,176,.46) 50%,transparent 50%);
+  background-size:44px 44px;
+}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+.app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.screens{flex:1;padding:18px 14px 28px}
+.screen{display:flex;flex-direction:column;gap:14px;animation:in .22s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+
+.label{font:600 12px/1 var(--f-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.paper{background:var(--paper);border-radius:3px;box-shadow:0 1px 0 var(--paper-edge),0 14px 26px -14px rgba(10,20,60,.55)}
+.tin{background:var(--paper);border:1.5px solid var(--ink);border-radius:3px;padding:14px 16px;box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4px var(--line),0 10px 22px -12px rgba(10,20,60,.6)}
+.tin h1{font:400 32px/1.08 var(--f-display);margin:8px 0 0;text-wrap:balance}
+.tin p{margin:6px 0 0;color:var(--ink-soft);font-size:14px}
+
+/* chips + tabs */
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--ink);background:var(--paper);border-radius:2px;padding:7px 11px 6px;font:600 13px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.chip small{font:inherit;opacity:.6;margin-left:5px}
+
+/* index */
+.page{padding:20px 18px 22px}
+.page h2{font:400 24px/1.1 var(--f-display);margin:0 0 4px}
+.idx{list-style:none;margin:12px 0 0;padding:0}
+.idx li{border-top:1px solid var(--line)}
+.idx button{all:unset;box-sizing:border-box;display:block;width:100%;padding:11px 0 10px;cursor:pointer}
+.idx button:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+.idx .row{display:flex;align-items:baseline;gap:8px}
+.idx .name{font:600 17px/1.25 var(--f-body)}
+.idx .dots{flex:1;border-bottom:2px dotted rgba(20,32,58,.35);transform:translateY(-4px);min-width:12px}
+.idx .pg{font:600 15px var(--f-label);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.tag{display:inline-flex;align-items:center;gap:6px;font:600 12px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+.tag i{width:9px;height:9px;border-radius:50%;background:var(--c,var(--ink))}
+.s-mama{--c:var(--tomato)}.s-abuela{--c:var(--mustard)}.s-tiktok{--c:var(--ink)}.s-libro{--c:var(--hule)}.s-mia{--c:var(--green)}
+
+/* recipe */
+.back{all:unset;cursor:pointer;align-self:flex-start;background:var(--paper);padding:7px 11px 6px;border-radius:2px;font:600 13px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase}
+.layers{display:flex;gap:4px;margin-bottom:-14px;position:relative;z-index:1;padding-left:10px}
+.layer-tab{border:0;background:#D9D4C6;border-radius:3px 3px 0 0;padding:9px 13px 8px;font:600 13px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.layer-tab[aria-selected="true"]{background:var(--paper);color:var(--ink);box-shadow:0 -2px 0 var(--tomato) inset}
+.runhead{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.page h1{font:400 38px/1.05 var(--f-display);margin:0}
+.byline{margin:6px 0 16px;color:var(--ink-soft);font-size:14px;font-style:italic}
+.lined{font:300 20px/32px var(--f-hand);color:var(--pen);background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(36,70,176,.2) 31px 32px);padding-top:1px}
+.lined p{margin:0 0 32px}
+.lined p:last-child{margin-bottom:0}
+mark.duda{background:none;color:inherit;text-decoration:underline wavy var(--tomato);text-decoration-thickness:1.5px;text-underline-offset:5px}
+mark.duda sup{font:600 11px var(--f-label);color:var(--tomato);margin-left:2px}
+.verbatim{margin-top:18px;font:600 12px/1.4 var(--f-label);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.facts{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 18px}
+.facts div{display:flex;flex-direction:column;gap:3px}
+.facts b{font:500 17px/1 var(--f-body)}
+.page h3{font:600 12px/1 var(--f-label);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:22px 0 8px}
+.ing{list-style:none;padding:0;margin:0}
+.ing li{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid var(--line)}
+.ing li span:first-child{flex:1}
+.ing em{font-style:normal;color:var(--ink-soft);font-size:14px}
+.stock{font:600 11px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase;padding:4px 6px 3px;border:1px solid var(--line);border-radius:2px;color:var(--green)}
+.stock.no{color:var(--tomato);border-color:var(--tomato)}
+.steps{margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:26px 1fr;gap:6px;padding:8px 0;border-top:1px solid var(--line)}
+.steps li::before{content:counter(s);font:400 18px/1.3 var(--f-display);color:var(--hule)}
+.mom{font:300 18px/1.4 var(--f-hand);color:var(--pen);margin:0 0 10px;padding-left:12px;border-left:2px solid var(--pen)}
+.folio{text-align:center;margin-top:22px}
+
+/* doubts */
+.doubts{padding:18px}
+.doubts h2{font:400 22px/1.15 var(--f-display);margin:0 0 4px}
+.doubt{border-top:1px solid var(--line);padding:12px 0}
+.doubt q{display:block;quotes:none;font:400 20px/1.3 var(--f-hand);color:var(--tomato)}
+.doubt form{display:flex;gap:6px;margin-top:8px}
+.doubt input,.field{flex:1;min-width:0;border:1.5px solid var(--line);background:#fff;border-radius:2px;padding:8px 10px;font:inherit;font-size:15px;color:var(--ink)}
+.doubt .answer{font:300 19px/1.35 var(--f-hand);color:var(--pen);margin:6px 0 0}
+.btn{border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:2px;padding:9px 13px 8px;font:600 14px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase}
+.btn.alt{background:var(--paper);color:var(--ink)}
+.btn.hot{background:var(--tomato);border-color:var(--tomato)}
+.btn.wide{width:100%;padding:13px}
+
+/* sheet */
+.sheet{position:fixed;inset:0;background:rgba(10,18,40,.55);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.sheet>div{width:100%;max-width:430px;background:var(--paper);padding:20px 18px 24px;border-radius:6px 6px 0 0}
+.bubble{background:#fff;border:1px solid var(--line);border-radius:3px 12px 12px 12px;padding:12px 14px;font-size:15px;white-space:pre-line;margin:10px 0 14px;max-height:42vh;overflow:auto}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* hoy */
+.cook{padding:16px 18px}
+.cook h2{font:400 22px/1.15 var(--f-display);margin:0}
+.dots5{display:flex;flex-wrap:wrap;gap:4px;margin:10px 0 8px}
+.dots5 span{width:14px;height:6px;border-radius:1px;background:var(--hule)}
+.dots5 span.off{background:transparent;border:1px solid var(--line)}
+.miss{margin:0;font-size:14px;color:var(--ink-soft)}
+.miss b{color:var(--tomato);font-weight:600}
+.go{all:unset;cursor:pointer;margin-top:10px;display:inline-block;font:600 13px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid var(--tomato);padding-bottom:3px}
+.ready{color:var(--green);font:600 12px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase}
+
+/* despensa */
+.photo{padding:10px}
+.photo svg{display:block;width:100%;height:auto;border-radius:2px}
+.photo .cap{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.shelf{padding:16px 18px}
+.shelf h2{font:400 20px/1.15 var(--f-display);margin:0 0 6px}
+.stock-list{list-style:none;margin:0;padding:0}
+.stock-list li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+.stock-list .n{flex:1}
+.stock-list .q{font:600 14px var(--f-label);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.stock-list li.unsure .n{color:var(--tomato)}
+.mini{border:1.5px solid var(--ink);background:var(--paper);border-radius:2px;padding:6px 9px 5px;font:600 12px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase}
+
+/* añadir */
+.seg{display:flex;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden;background:var(--paper)}
+.seg button{flex:1;border:0;background:transparent;padding:10px 6px 9px;font:600 14px/1 var(--f-label);letter-spacing:.1em;text-transform:uppercase}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.add{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.add textarea{min-height:150px;resize:vertical;font:300 19px/1.4 var(--f-hand);color:var(--pen)}
+.drop{border:2px dashed var(--ink-soft);border-radius:3px;padding:30px 14px;text-align:center;color:var(--ink-soft)}
+.note{margin:0;font-size:13px;color:var(--ink-soft)}
+
+/* tab bar */
+.tabbar{position:sticky;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--paper);border-top:1.5px solid var(--ink);padding:6px 4px calc(8px + env(safe-area-inset-bottom))}
+.tabbar button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;font:600 12px/1 var(--f-label);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.tabbar button:focus-visible{outline:3px solid var(--tomato);outline-offset:-3px}
+.tabbar button[aria-current="page"]{color:var(--ink)}
+.tabbar button[aria-current="page"] span.ic{background:var(--ink);color:var(--paper)}
+.tabbar svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar span.ic{width:42px;height:28px;border-radius:2px;display:flex;align-items:center;justify-content:center}
+.tabbar .plus span.ic{background:var(--tomato);color:#fff}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 14px;border-radius:2px;font-size:14px;z-index:30;max-width:90vw;text-align:center}
+</style>
+
+<div class="app">
+<main class="screens">
+
+<!-- LIBRO -->
+<section class="screen" id="libro" aria-label="Libro">
+  <header class="tin">
+    <span class="label">Cuaderno de la familia</span>
+    <h1>El libro de casa</h1>
+    <p>9 recetas, 5 orígenes y ninguna perdida en un chat.</p>
+  </header>
+  <div class="chips" id="chapters" role="group" aria-label="Capítulos">
+    <button class="chip" aria-pressed="true" data-f="all">Todo<small>9</small></button>
+    <button class="chip" aria-pressed="false" data-f="mama">De mamá<small>3</small></button>
+    <button class="chip" aria-pressed="false" data-f="abuela">De la abuela<small>2</small></button>
+    <button class="chip" aria-pressed="false" data-f="tiktok">De TikTok<small>2</small></button>
+    <button class="chip" aria-pressed="false" data-f="libro">De un libro<small>1</small></button>
+    <button class="chip" aria-pressed="false" data-f="mia">Mías<small>1</small></button>
+  </div>
+  <div class="paper page">
+    <h2>Índice</h2>
+    <span class="label">Recetas de ejemplo; solo la fabada está completa</span>
+    <ul class="idx" id="idx">
+      <li data-s="mama"><button data-open="0"><span class="row"><span class="name">Caldo para el resfriado</span><span class="dots"></span><span class="pg">9</span></span><span class="tag s-mama"><i></i>De mamá</span></button></li>
+      <li data-s="mama"><button data-open="1"><span class="row"><span class="name">Fabada</span><span class="dots"></span><span class="pg">14</span></span><span class="tag s-mama"><i></i>De mamá · 3 dudas abiertas</span></button></li>
+      <li data-s="mama"><button data-open="0"><span class="row"><span class="name">Albóndigas en salsa</span><span class="dots"></span><span class="pg">17</span></span><span class="tag s-mama"><i></i>De mamá</span></button></li>
+      <li data-s="abuela"><button data-open="0"><span class="row"><span class="name">Lentejas de los jueves</span><span class="dots"></span><span class="pg">22</span></span><span class="tag s-abuela"><i></i>De la abuela · foto de su cuaderno</span></button></li>
+      <li data-s="abuela"><button data-open="0"><span class="row"><span class="name">Tortilla de patatas</span><span class="dots"></span><span class="pg">31</span></span><span class="tag s-abuela"><i></i>De la abuela</span></button></li>
+      <li data-s="tiktok"><button data-open="0"><span class="row"><span class="name">Pollo al limón en bandeja</span><span class="dots"></span><span class="pg">48</span></span><span class="tag s-tiktok"><i></i>De TikTok</span></button></li>
+      <li data-s="tiktok"><button data-open="0"><span class="row"><span class="name">Hummus de remolacha</span><span class="dots"></span><span class="pg">52</span></span><span class="tag s-tiktok"><i></i>De TikTok</span></button></li>
+      <li data-s="libro"><button data-open="0"><span class="row"><span class="name">Salmorejo</span><span class="dots"></span><span class="pg">63</span></span><span class="tag s-libro"><i></i>De un libro · foto de página</span></button></li>
+      <li data-s="mia"><button data-open="0"><span class="row"><span class="name">Croquetas de jamón</span><span class="dots"></span><span class="pg">71</span></span><span class="tag s-mia"><i></i>Mía</span></button></li>
+    </ul>
+  </div>
+</section>
+
+<!-- RECETA -->
+<section class="screen" id="receta" aria-label="Receta" hidden>
+  <button class="back" data-go="libro">← Índice</button>
+  <div class="layers" role="tablist">
+    <button class="layer-tab" role="tab" aria-selected="true" data-layer="mama">Como me la mandó</button>
+    <button class="layer-tab" role="tab" aria-selected="false" data-layer="orden">Paso a paso</button>
+  </div>
+  <article class="paper page">
+    <div class="runhead"><span class="label">De mamá</span><span class="label">Pág. 14</span></div>
+    <h1>Fabada</h1>
+    <p class="byline">Mandada por WhatsApp el 11 de noviembre</p>
+
+    <div id="layer-mama">
+      <div class="lined">
+        <p>Compra judías blancas en la frutería del plaza, las de fabada son carísimas.</p>
+        <p>Pones la noche anterior a remojo con agua fría y un puñado de sal (un puñado de judias por persona, si es para dos pon 4 así os quedan)</p>
+        <p>Pon a cocer cubriéndolas de agua fria que no hierba fuerte que si no se despellejan):tira el agua <mark class="duda">cuando estén calientes<sup>3</sup></mark>. Vuelve a poner agua fría con las judias, una cabeza de ajo, una cebolla pequeña y una hoja de laurel.</p>
+        <p>El compango (chorizo tocino y <mark class="duda">morcilla<sup>1</sup></mark> lo venden en el plaza y Ahorramás en un paquete (frente a charcutería) cuéce el chorizo y tocino a parte para desengrasar. una zanahoria pelada, una patata pequeña, (media hora antes de hacer el sofrito) luego se lo das a <mark class="duda">Tro<sup>2</sup></mark>, un trocito de jamón (si tienes).</p>
+        <p>Lo pones a cocer 2 horas o 2 y media. Cuando quede media hora echas la sal y haces sofrito con un trozo de cebolla. Lo apartas del fuego y echa una punta de una cucharita de pimentón. Le echas un poco caldo de las judías lo apades a la cacerola y CHIMPUM.</p>
+        <p>A comer</p>
+      </div>
+      <p class="verbatim">Tal cual, sin tocar una coma. Lo subrayado en rojo es lo que no queda claro.</p>
+    </div>
+
+    <div id="layer-orden" hidden>
+      <div class="facts">
+        <div><span class="label">Para</span><b>2 personas</b></div>
+        <div><span class="label">Remojo</span><b>la noche antes</b></div>
+        <div><span class="label">Cocción</span><b>2 a 2 h 30</b></div>
+      </div>
+      <p class="mom">«Las de fabada son carísimas.» Compra las judías en la frutería de la plaza.</p>
+      <h3>Ingredientes</h3>
+      <ul class="ing">
+        <li><span>Judías blancas <em>4 puñados (uno por persona, y otros dos de sobra)</em></span><span class="stock no">Falta</span></li>
+        <li><span>Sal <em>un puñado para el remojo, más al final</em></span><span class="stock">En casa</span></li>
+        <li><span>Ajo <em>1 cabeza</em></span><span class="stock">En casa</span></li>
+        <li><span>Cebolla <em>1 pequeña, y un trozo para el sofrito</em></span><span class="stock">En casa</span></li>
+        <li><span>Laurel <em>1 hoja</em></span><span class="stock">En casa</span></li>
+        <li><span>Chorizo</span><span class="stock">En casa</span></li>
+        <li><span>Tocino</span><span class="stock no">Falta</span></li>
+        <li><span>Morcilla</span><span class="stock no">Falta</span></li>
+        <li><span>Zanahoria <em>1, pelada</em></span><span class="stock">En casa</span></li>
+        <li><span>Patata <em>1 pequeña</em></span><span class="stock">En casa</span></li>
+        <li><span>Pimentón <em>una punta de cucharita</em></span><span class="stock">En casa</span></li>
+        <li><span>Jamón <em>un trocito, si tienes</em></span><span class="stock no">Opcional</span></li>
+      </ul>
+      <p class="mom" style="margin-top:12px">El compango (chorizo, tocino y morcilla) lo venden en la plaza y en Ahorramás, en un paquete frente a charcutería.</p>
+      <h3>Paso a paso</h3>
+      <ol class="steps">
+        <li><span>La noche anterior, pon las judías a remojo en agua fría con un puñado de sal.</span></li>
+        <li><span>Cuécelas cubiertas de agua fría, sin que hierva fuerte o se despellejan. Cuando estén calientes, tira el agua.</span></li>
+        <li><span>Vuelve a poner agua fría con las judías, la cabeza de ajo, la cebolla pequeña y el laurel.</span></li>
+        <li><span>Cuece el chorizo y el tocino aparte para desengrasar.</span></li>
+        <li><span>Añade la zanahoria pelada y la patata pequeña, media hora antes de hacer el sofrito.</span></li>
+        <li><span>Déjalo cocer 2 horas, o 2 y media.</span></li>
+        <li><span>Cuando quede media hora, echa la sal y haz un sofrito con un trozo de cebolla.</span></li>
+        <li><span>Aparta del fuego, añade la punta de cucharita de pimentón y un poco del caldo de las judías, y pásalo a la cacerola. CHIMPUM. A comer.</span></li>
+      </ol>
+    </div>
+    <p class="label folio">— 14 —</p>
+  </article>
+
+  <section class="paper doubts" aria-labelledby="dh">
+    <span class="label" id="dcount">3 dudas abiertas</span>
+    <h2 id="dh">Lo que la receta no dice</h2>
+    <div class="doubt" data-d="1">
+      <q>¿Cuándo entra la morcilla?</q>
+      <form><input aria-label="Respuesta de mamá a la duda 1" placeholder="Lo que contestó mamá"><button class="btn alt" type="submit">Guardar</button></form>
+    </div>
+    <div class="doubt" data-d="2">
+      <q>¿Quién es Tro y qué se le da exactamente?</q>
+      <form><input aria-label="Respuesta de mamá a la duda 2" placeholder="Lo que contestó mamá"><button class="btn alt" type="submit">Guardar</button></form>
+    </div>
+    <div class="doubt" data-d="3">
+      <q>¿Cuánto rato las judías, antes de tirar la primera agua?</q>
+      <form><input aria-label="Respuesta de mamá a la duda 3" placeholder="Lo que contestó mamá"><button class="btn alt" type="submit">Guardar</button></form>
+    </div>
+    <button class="btn hot wide" id="askMom" style="margin-top:14px">Preguntar a mamá</button>
+  </section>
+</section>
+
+<!-- HOY -->
+<section class="screen" id="hoy" aria-label="Hoy" hidden>
+  <header class="tin">
+    <span class="label">Con lo que hay en tu despensa</span>
+    <h1>¿Qué cocino hoy?</h1>
+  </header>
+  <article class="paper cook">
+    <span class="ready">Puedes hacerla ya</span>
+    <h2>Tortilla de patatas</h2>
+    <span class="tag s-abuela"><i></i>De la abuela</span>
+    <div class="dots5" aria-label="5 de 5 ingredientes"><span></span><span></span><span></span><span></span><span></span></div>
+    <p class="miss">Tienes los 5 ingredientes.</p>
+  </article>
+  <article class="paper cook">
+    <span class="label">Tienes 8 de 11</span>
+    <h2>Fabada</h2>
+    <span class="tag s-mama"><i></i>De mamá</span>
+    <div class="dots5" aria-label="8 de 11 ingredientes"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></div>
+    <p class="miss"><b>Te falta:</b> judías blancas (frutería de la plaza, dice mamá), tocino y morcilla (en la plaza o en Ahorramás, frente a charcutería).</p>
+    <button class="go" data-open="1">Abrir la página</button>
+  </article>
+  <article class="paper cook">
+    <span class="label">Tienes 3 de 6</span>
+    <h2>Pollo al limón en bandeja</h2>
+    <span class="tag s-tiktok"><i></i>De TikTok</span>
+    <div class="dots5" aria-label="3 de 6 ingredientes"><span></span><span></span><span></span><span class="off"></span><span class="off"></span><span class="off"></span></div>
+    <p class="miss"><b>Te falta:</b> pollo, limones y tomillo.</p>
+  </article>
+</section>
+
+<!-- DESPENSA -->
+<section class="screen" id="despensa" aria-label="Despensa" hidden>
+  <header class="tin">
+    <span class="label">Tu almacén</span>
+    <h1>Despensa</h1>
+    <p>Haz una foto a la nevera y Claude lo ordena por estantes. Tú confirmas lo dudoso.</p>
+  </header>
+  <div class="paper photo">
+    <svg viewBox="0 0 340 200" role="img" aria-label="Ejemplo de foto de nevera con productos detectados">
+      <rect width="340" height="200" fill="#DCE5EE"/>
+      <rect y="66" width="340" height="4" fill="#B3C1D1"/><rect y="132" width="340" height="4" fill="#B3C1D1"/>
+      <rect x="22" y="22" width="32" height="44" fill="#FBFCFD" stroke="#14203A" stroke-width="1.5"/><polygon points="22,22 38,12 54,22" fill="#FBFCFD" stroke="#14203A" stroke-width="1.5"/>
+      <rect x="78" y="34" width="28" height="32" rx="3" fill="#C9402C"/><rect x="80" y="28" width="24" height="7" fill="#14203A"/>
+      <g fill="#F1E6D0" stroke="#14203A" stroke-width="1"><ellipse cx="136" cy="58" rx="9" ry="7"/><ellipse cx="156" cy="58" rx="9" ry="7"/><ellipse cx="176" cy="58" rx="9" ry="7"/><ellipse cx="146" cy="46" rx="9" ry="7"/><ellipse cx="166" cy="46" rx="9" ry="7"/></g>
+      <g fill="#F7F7F2" stroke="#14203A" stroke-width="1"><rect x="222" y="48" width="16" height="18"/><rect x="242" y="48" width="16" height="18"/><rect x="262" y="48" width="16" height="18"/><rect x="282" y="48" width="16" height="18"/></g>
+      <g fill="#D2402A" stroke="#14203A" stroke-width="1"><circle cx="34" cy="120" r="11"/><circle cx="58" cy="122" r="11"/><circle cx="46" cy="104" r="11"/></g>
+      <rect x="96" y="100" width="70" height="30" rx="14" fill="#8C3B2A" stroke="#14203A" stroke-width="1"/>
+      <polygon points="200,128 252,128 252,104" fill="#E3B23C" stroke="#14203A" stroke-width="1"/>
+      <ellipse cx="294" cy="116" rx="26" ry="14" fill="#8FB46A" stroke="#14203A" stroke-width="1"/>
+      <g fill="#D9B07A" stroke="#14203A" stroke-width="1"><circle cx="34" cy="180" r="14"/><circle cx="64" cy="182" r="14"/><circle cx="48" cy="166" r="14"/></g>
+      <g fill="#E07B2B" stroke="#14203A" stroke-width="1"><polygon points="100,150 150,160 100,170"/><polygon points="104,172 152,178 104,190"/></g>
+      <g fill="#C9A36B" stroke="#14203A" stroke-width="1"><ellipse cx="220" cy="176" rx="22" ry="13"/><ellipse cx="262" cy="178" rx="22" ry="13"/><ellipse cx="300" cy="172" rx="20" ry="12"/></g>
+      <g fill="none" stroke="#D2402A" stroke-width="1.5" stroke-dasharray="4 3">
+        <rect x="18" y="10" width="40" height="58"/><rect x="74" y="26" width="36" height="42"/><rect x="124" y="36" width="64" height="32"/><rect x="218" y="42" width="84" height="26"/>
+        <rect x="20" y="92" width="52" height="42"/><rect x="92" y="96" width="78" height="38"/><rect x="196" y="100" width="60" height="32"/><rect x="266" y="98" width="56" height="34"/>
+        <rect x="16" y="150" width="62" height="46"/><rect x="96" y="146" width="62" height="48"/><rect x="196" y="158" width="122" height="38"/>
+      </g>
+      <g font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="10" font-weight="600" letter-spacing=".6">
+        <rect x="124" y="24" width="50" height="12" fill="#14203A"/><text x="128" y="33" fill="#FDFBF6">HUEVOS ×5</text>
+        <rect x="218" y="30" width="62" height="12" fill="#14203A"/><text x="222" y="39" fill="#FDFBF6">YOGURES ×4</text>
+        <rect x="196" y="88" width="64" height="12" fill="#D2402A"/><text x="200" y="97" fill="#FFFFFF">¿QUESO FRESCO?</text>
+        <rect x="266" y="86" width="64" height="12" fill="#D2402A"/><text x="270" y="95" fill="#FFFFFF">¿LECHUGA?</text>
+        <rect x="92" y="84" width="46" height="12" fill="#14203A"/><text x="96" y="93" fill="#FDFBF6">CHORIZO</text>
+      </g>
+    </svg>
+    <div class="cap"><span class="label">Foto de ejemplo · 11 productos detectados</span><button class="mini" data-toast="En la versión real se abriría la cámara">Hacer foto</button></div>
+  </div>
+
+  <section class="paper shelf">
+    <h2>Nevera</h2>
+    <ul class="stock-list">
+      <li><span class="n">Huevos</span><span class="q">5 ud.</span></li>
+      <li><span class="n">Yogures</span><span class="q">4 ud.</span></li>
+      <li><span class="n">Chorizo</span><span class="q">1</span></li>
+      <li><span class="n">Tomates</span><span class="q">3</span></li>
+      <li class="unsure"><span class="n">¿Queso fresco?</span><button class="mini" data-confirm>Confirmar</button></li>
+      <li class="unsure"><span class="n">¿Lechuga o escarola?</span><button class="mini" data-confirm>Confirmar</button></li>
+    </ul>
+  </section>
+  <section class="paper shelf">
+    <h2>Verdura y fruta</h2>
+    <ul class="stock-list">
+      <li><span class="n">Cebolla</span><span class="q">3</span></li>
+      <li><span class="n">Patatas</span><span class="q">≈ 1 kg</span></li>
+      <li><span class="n">Zanahorias</span><span class="q">2</span></li>
+      <li><span class="n">Ajo</span><span class="q">1 cabeza</span></li>
+    </ul>
+  </section>
+  <section class="paper shelf">
+    <h2>Despensa seca</h2>
+    <ul class="stock-list">
+      <li><span class="n">Sal</span><span class="q">en casa</span></li>
+      <li><span class="n">Aceite de oliva</span><span class="q">en casa</span></li>
+      <li><span class="n">Laurel</span><span class="q">en casa</span></li>
+      <li><span class="n">Pimentón</span><span class="q">en casa</span></li>
+    </ul>
+  </section>
+</section>
+
+<!-- AÑADIR -->
+<section class="screen" id="anadir" aria-label="Añadir" hidden>
+  <header class="tin">
+    <span class="label">Nueva página</span>
+    <h1>Añadir al libro</h1>
+  </header>
+  <div class="paper add">
+    <span class="label">¿De dónde viene?</span>
+    <div class="chips" id="sources" role="group" aria-label="Origen">
+      <button class="chip" aria-pressed="true">Mamá</button>
+      <button class="chip" aria-pressed="false">Abuela</button>
+      <button class="chip" aria-pressed="false">TikTok</button>
+      <button class="chip" aria-pressed="false">Un libro</button>
+      <button class="chip" aria-pressed="false">Mía</button>
+    </div>
+    <div class="seg" id="modes" role="group" aria-label="Cómo la añado">
+      <button aria-pressed="true" data-m="texto">Texto</button>
+      <button aria-pressed="false" data-m="foto">Foto</button>
+      <button aria-pressed="false" data-m="enlace">Enlace</button>
+    </div>
+    <div data-pane="texto"><textarea class="field" aria-label="Receta" placeholder="Pega aquí lo que te mandó">Compra judías blancas en la frutería del plaza, las de fabada son carísimas. Pones la noche anterior a remojo con agua fría y un puñado de sal…</textarea></div>
+    <div data-pane="foto" hidden><div class="drop">Foto de una página de libro o de una libreta, también a mano.<br><button class="mini" style="margin-top:10px" data-toast="En la versión real se abriría la galería">Elegir foto</button></div></div>
+    <div data-pane="enlace" hidden><input class="field" aria-label="Enlace" value="https://www.tiktok.com/@ejemplo/video/0000"><p class="note" style="margin-top:8px">Claude lee la descripción pública del vídeo. Si la receta solo se cuenta hablando, sube una captura.</p></div>
+    <button class="btn hot wide" id="order">Ordenar con Claude</button>
+    <p class="note">Tu texto original se guarda siempre sin cambios. Lo que no queda claro se convierte en dudas, no se inventa.</p>
+  </div>
+</section>
+
+</main>
+
+<nav class="tabbar" aria-label="Secciones">
+  <button data-go="libro" aria-current="page"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H19v15H5.5A1.5 1.5 0 0 0 4 20.5zM4 20.5V5.5M8 8h7"/></svg></span>Libro</button>
+  <button data-go="hoy"><span class="ic"><svg viewBox="0 0 24 24"><path d="M5 10h14v6a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3zM3 10h18M9 7c0-1.5 1-1.5 1-3M14 7c0-1.5 1-1.5 1-3"/></svg></span>Hoy</button>
+  <button data-go="anadir" class="plus"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>Añadir</button>
+  <button data-go="despensa"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 4h10v3H7zM6 7h12v13H6zM9 12h6v4H9z"/></svg></span>Despensa</button>
+</nav>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div role="dialog" aria-modal="true" aria-labelledby="sh">
+    <span class="label">Mensaje listo para enviar</span>
+    <h2 id="sh" style="font:400 22px/1.15 var(--f-display);margin:6px 0 0">Preguntar a mamá</h2>
+    <div class="bubble" id="bubble"></div>
+    <div class="row-btns">
+      <button class="btn" id="copy">Copiar mensaje</button>
+      <a class="btn alt" id="wa" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Abrir en WhatsApp</a>
+      <button class="btn alt" id="closeSheet">Cerrar</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var toastTimer;
+  function toast(msg){
+    var t=$('#toast');t.textContent=msg;t.hidden=false;
+    clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true},2400);
+  }
+  function show(id){
+    $$('.screen').forEach(function(s){s.hidden=s.id!==id});
+    var tab=id==='receta'?'libro':id;
+    $$('.tabbar button').forEach(function(b){
+      if(b.dataset.go===tab){b.setAttribute('aria-current','page')}else{b.removeAttribute('aria-current')}
+    });
+    window.scrollTo(0,0);
+  }
+  $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
+  $$('[data-toast]').forEach(function(b){b.addEventListener('click',function(){toast(b.dataset.toast)})});
+
+  $$('[data-open]').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.dataset.open==='1'){show('receta')}
+      else{toast('Receta de ejemplo: en este prototipo solo la fabada está completa')}
+    });
+  });
+
+  $$('#chapters .chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      $$('#chapters .chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c))});
+      var f=c.dataset.f;
+      $$('#idx li').forEach(function(li){li.hidden=!(f==='all'||li.dataset.s===f)});
+    });
+  });
+
+  $$('.layer-tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      $$('.layer-tab').forEach(function(x){x.setAttribute('aria-selected',String(x===t))});
+      $('#layer-mama').hidden=t.dataset.layer!=='mama';
+      $('#layer-orden').hidden=t.dataset.layer!=='orden';
+    });
+  });
+
+  var open=3;
+  function updateCount(){
+    $('#dcount').textContent=open===0?'Todas las dudas resueltas':open+(open===1?' duda abierta':' dudas abiertas');
+    var tag=$('#idx [data-open="1"] .tag');
+    if(tag){tag.lastChild.textContent=open===0?'De mamá':'De mamá · '+open+(open===1?' duda abierta':' dudas abiertas')}
+  }
+  $$('.doubt form').forEach(function(f){
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var input=$('input',f),val=input.value.trim();
+      if(!val){input.focus();return}
+      var p=document.createElement('p');p.className='answer';p.textContent='Mamá respondió: '+val;
+      f.replaceWith(p);open--;updateCount();
+    });
+  });
+
+  var msg='Mamá, estoy pasando tu fabada a mi libro de recetas y me han quedado tres dudas:\n\n'
+    +'1. ¿Cuándo entra la morcilla? Dices que el chorizo y el tocino se cuecen aparte, pero de la morcilla no dice nada.\n'
+    +'2. ¿Quién es Tro y qué se le da exactamente?\n'
+    +'3. ¿Cuánto rato tienen que estar las judías la primera vez, antes de tirar el agua?\n\n'
+    +'Gracias. CHIMPUM.';
+  $('#askMom').addEventListener('click',function(){
+    $('#bubble').textContent=msg;
+    $('#wa').href='https://wa.me/?text='+encodeURIComponent(msg);
+    $('#sheet').hidden=false;
+    $('#closeSheet').focus();
+  });
+  $('#closeSheet').addEventListener('click',function(){$('#sheet').hidden=true});
+  $('#sheet').addEventListener('click',function(e){if(e.target.id==='sheet')$('#sheet').hidden=true});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')$('#sheet').hidden=true});
+  $('#copy').addEventListener('click',function(){
+    var done=function(){toast('Mensaje copiado. Pégalo en vuestro chat')};
+    var fail=function(){
+      var r=document.createRange();r.selectNodeContents($('#bubble'));
+      var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+      toast('Selecciónalo y cópialo a mano');
+    };
+    try{navigator.clipboard.writeText(msg).then(done,fail)}catch(err){fail()}
+  });
+
+  $$('#sources .chip').forEach(function(c){
+    c.addEventListener('click',function(){$$('#sources .chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c))})});
+  });
+  $$('#modes button').forEach(function(b){
+    b.addEventListener('click',function(){
+      $$('#modes button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});
+      $$('[data-pane]').forEach(function(p){p.hidden=p.dataset.pane!==b.dataset.m});
+    });
+  });
+  $('#order').addEventListener('click',function(){
+    var b=$('#order');b.textContent='Leyendo la receta…';b.disabled=true;
+    setTimeout(function(){b.textContent='Ordenar con Claude';b.disabled=false;show('receta');toast('Ordenada: 12 ingredientes, 8 pasos y 3 dudas')},900);
+  });
+
+  $$('[data-confirm]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var li=b.closest('li');li.classList.remove('unsure');
+      var q=document.createElement('span');q.className='q';q.textContent='Confirmado';
+      b.replaceWith(q);
+    });
+  });
+})();
+</script>
