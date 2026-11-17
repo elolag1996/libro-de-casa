@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Formulario from "./formulario";
 import Hueco from "../hueco";
 
 export const metadata: Metadata = { title: "Añadir al libro" };
@@ -13,10 +14,7 @@ export default function AnadirPage() {
         </h1>
       </header>
 
-      <Hueco titulo="Pegar la receta y elegir de quién es" llega="Llega en el paso 7">
-        El cuadro de texto donde pegas lo que te mandaron y los orígenes (Mamá, Abuela, TikTok,
-        Un libro, Mía). Antes, en el paso 6, Claude aprende a ordenar una receta sin inventarse nada.
-      </Hueco>
+      <Formulario />
 
       <Hueco titulo="Foto y enlace de TikTok" llega="Llega en la fase 2">
         Una foto de una página o del cuaderno de la abuela, y el enlace de TikTok leyendo solo su
