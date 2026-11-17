@@ -56,7 +56,7 @@ El problema real que resuelve: las recetas viven en sitios que nunca recuerdas, 
 | Framework | Next.js (App Router, TypeScript) | SPA pura: la clave de Claude debe vivir en servidor |
 | Estilos | Tailwind con tokens como variables CSS | Colores a mano en componentes: acaban siendo cinco azules distintos |
 | Datos y login | Supabase (Postgres, Auth, Storage) con RLS | Backend propio: más piezas sin aportar valor ahora |
-| IA | API de Claude (SDK de Anthropic) desde rutas de servidor; modelo en `ANTHROPIC_MODEL`; salida JSON validada con Zod | Llamar desde el navegador: expone la clave |
+| IA | API de Groq (SDK `groq-sdk`) desde rutas de servidor; modelo en `GROQ_MODEL`, por defecto `openai/gpt-oss-120b`; salida en modo estricto de esquema y validada con Zod | Llamar desde el navegador: expone la clave. API de Claude: descartada el 2026-11-17 a favor de Groq (plan gratuito y velocidad); el esquema y el prompt no dependen del proveedor, así que volver es cambiar un archivo |
 | Despliegue | Vercel desde el día 1 (app vacía primero) | Desplegar al final: convierte "publicar" en un evento |
 | Gestor | npm | pnpm: una herramienta menos que aprender |
 | Login | Enlace mágico por email desde el paso 1 | Añadirlo después: obliga a reescribir consultas y migrar datos |
@@ -115,10 +115,23 @@ Son recetas y fotos de familia, no datos clínicos. No guardar nada innecesario.
 
 ## 10. Ejemplo canónico
 
-La **fabada de mamá** (texto de WhatsApp real, con faltas como "cuéce" y "apades", y "CHIMPUM"). Es el caso de prueba de todo el producto y está en el prototipo. Debe producir 12 ingredientes, 8 pasos y 3 dudas:
+La **fabada de mamá** (texto de WhatsApp real, con faltas como "cuéce" y "apades", y "CHIMPUM"). Es el caso de prueba de todo el producto y está en el prototipo. Debería producir 12 ingredientes, 8 pasos y 3 dudas:
 1. ¿Cuándo entra la morcilla?
 2. ¿Quién es "Tro" y qué se le da?
 3. ¿Cuánto rato cuecen las judías la primera vez, antes de tirar el agua?
+
+### Lo que de verdad devuelve el modelo (2026-11-17)
+
+`openai/gpt-oss-120b` **no alcanza ese resultado canónico**, y se acepta a sabiendas:
+
+- Obtenido: 13 ingredientes, 10 pasos, 2 dudas. De las tres dudas buenas acierta la del primer hervor; **no detecta que la morcilla entra en la lista y no se usa en ningún paso**.
+- **Respeta las cantidades vagas:** "un puñado" sigue siendo "un puñado". Nunca las convirtió a gramos en ninguna prueba.
+- **Reescribe los pasos con sus palabras** ("Cocéralas", "Cuece el chorizo") en vez de conservar las de quien escribió. Se pierde la voz en la capa ordenada.
+- **Retoca alguna cita:** cambió "El compango" por "el compango". `scripts/probar-receta.ts` lo detecta automáticamente comprobando que cada cita y cada fragmento existan literales en el original.
+
+**Por qué se acepta:** el original no se toca nunca y está a una pestaña de distancia. La capa ordenada es una ayuda, no la verdad; la verdad es lo que mandó mamá. Si algún día molesta, cambiar de modelo es una línea en `.env.local` y cambiar de proveedor es un archivo (`src/lib/recetas/structure-recipe.ts`): el esquema y el prompt no dependen de quién los ejecute.
+
+**Señal de alarma:** si una prueba imprime `LITERALIDAD: FALLOS` en cantidades (no en mayúsculas), hay que parar y cambiar de modelo. Convertir "un puñado" en "200 g" sí rompe el producto.
 
 ## 11. Criterio de "Fase 1 hecha"
 
@@ -126,7 +139,7 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-17):** pasos 1 a 5 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
+**Estado (2026-11-17):** pasos 1 a 6 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
 
 Del paso 5 queda una cosa por ver con los ojos: **el clic final del enlace del correo**. La base de datos, la RLS y el guardián de sesión están probados; el canje del enlace falla en local. La causa más probable es que `localhost` obliga a pedir y abrir el enlace en el mismo navegador del mismo ordenador. Se comprueba en la URL de Vercel, donde la dirección es real y el enlace funciona desde el móvil. El servidor ya registra el motivo del fallo en desarrollo (`src/app/auth/confirmar/route.ts`).
 
@@ -151,7 +164,7 @@ Ojo con el tope de correos de Supabase en el plan gratuito: unos pocos por hora.
 - [x] Nombre comercial: **A ojo** (casi definitivo; falta validar dominio y App Store). El repo puede llamarse `libro-de-casa` mientras tanto.
 - [x] Plan de Fase 1: aprobado (2026-11-13).
 - [x] Login con enlace mágico desde el paso 1: aprobado.
-- [ ] Modelo de Claude a usar en `ANTHROPIC_MODEL`.
+- [x] Modelo de IA: `openai/gpt-oss-120b` en Groq (2026-11-17). Es el único de Groq con modo estricto de esquema y razonamiento. **A vigilar:** los modelos abiertos tienden a corregir faltas y a rellenar huecos, que es justo lo que este producto prohíbe. Si inventa, se cambia de modelo o de proveedor.
 - [ ] Validar el nombre: decirlo por teléfono, buscarlo en App Store y Google con "recetas", dominio `.app` o `.es`.
 
 ## 14. Glosario

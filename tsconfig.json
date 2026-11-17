@@ -6,6 +6,9 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
+    // Node 24 ejecuta TypeScript directamente, pero exige la extensión .ts en
+    // los imports. Hace falta para los guiones de scripts/ (ver probar-receta).
+    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
