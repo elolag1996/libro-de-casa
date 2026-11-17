@@ -126,7 +126,11 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-17):** pasos 1, 2 y 3 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Paso 4 en curso. La cuenta de la API de Anthropic se crea en el paso 6, no antes.
+**Estado (2026-11-17):** pasos 1 a 5 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
+
+Del paso 5 queda una cosa por ver con los ojos: **el clic final del enlace del correo**. La base de datos, la RLS y el guardián de sesión están probados; el canje del enlace falla en local. La causa más probable es que `localhost` obliga a pedir y abrir el enlace en el mismo navegador del mismo ordenador. Se comprueba en la URL de Vercel, donde la dirección es real y el enlace funciona desde el móvil. El servidor ya registra el motivo del fallo en desarrollo (`src/app/auth/confirmar/route.ts`).
+
+Ojo con el tope de correos de Supabase en el plan gratuito: unos pocos por hora. Al probar la entrada, un intento cada vez.
 
 | # | Paso | Cómo se prueba |
 |---|---|---|
