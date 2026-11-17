@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Diseño · A ojo" };
+export const metadata: Metadata = { title: "Diseño" };
 
 const colores = [
   { nombre: "Hule", clase: "bg-hule", hex: "#2446B0", uso: "El mantel" },

@@ -45,10 +45,14 @@ body {
   background-size: 44px 44px;
 }
 
-button {
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
+/* Dentro de @layer base a propósito: una regla suelta ganaría a las clases
+   de @layer components (.btn, .chip…) y les borraría su color de texto. */
+@layer base {
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
 }
 
 :focus-visible {
