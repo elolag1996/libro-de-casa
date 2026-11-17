@@ -175,3 +175,163 @@ button {
     background: var(--dot, var(--color-ink));
   }
 }
+
+/* Navegación y piezas de la página de receta (paso 4) */
+@layer components {
+  .tabbar {
+    position: sticky;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--color-paper);
+    border-top: 1.5px solid var(--color-ink);
+    padding: 6px 4px calc(8px + env(safe-area-inset-bottom));
+  }
+
+  .tabbar a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 0;
+    font: 600 12px/1 var(--font-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+  }
+
+  .tabbar a:focus-visible {
+    outline: 3px solid var(--color-tomato);
+    outline-offset: -3px;
+  }
+
+  .tabbar a[aria-current="page"] {
+    color: var(--color-ink);
+  }
+
+  .tabbar .ic {
+    width: 42px;
+    height: 28px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tabbar a[aria-current="page"] .ic {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  /* Añadir es la acción principal: va en tomate siempre. */
+  .tabbar .destacado .ic {
+    background: var(--color-tomato);
+    color: #fff;
+  }
+
+  .tabbar svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Índice del libro: nombre, puntos y folio */
+  .idx {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .idx li {
+    border-top: 1px solid var(--line);
+  }
+
+  .idx a {
+    display: block;
+    padding: 11px 0 10px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .idx .row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .idx .name {
+    font: 600 17px/1.25 var(--font-body);
+  }
+
+  .idx .dots {
+    flex: 1;
+    min-width: 12px;
+    border-bottom: 2px dotted color-mix(in srgb, var(--color-ink) 35%, transparent);
+    transform: translateY(-4px);
+  }
+
+  .idx .pg {
+    font: 600 15px var(--font-label);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .back {
+    align-self: flex-start;
+    background: var(--color-paper);
+    border-radius: 2px;
+    padding: 7px 11px 6px;
+    font: 600 13px/1 var(--font-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  /* Pestañas de papel que asoman por encima de la página */
+  .layers {
+    display: flex;
+    gap: 4px;
+    margin-bottom: -14px;
+    padding-left: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .layer-tab {
+    background: var(--color-paper-dim);
+    border-radius: 3px 3px 0 0;
+    padding: 9px 13px 8px;
+    font: 600 13px/1 var(--font-label);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+  }
+
+  .layer-tab[data-activa="true"] {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: inset 0 -2px 0 var(--color-tomato);
+  }
+
+  /* Cabecera de página: origen a la izquierda, folio a la derecha */
+  .runhead {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+  }
+
+  .byline {
+    margin: 6px 0 16px;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--color-ink-soft);
+  }
+}

@@ -27,7 +27,8 @@ const barlow = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: "A ojo",
+  // Cada pantalla pone su nombre delante: "Despensa · A ojo".
+  title: { default: "A ojo", template: "%s · A ojo" },
   description: "Tu libro de recetas de casa.",
 };
 

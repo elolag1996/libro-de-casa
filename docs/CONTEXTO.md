@@ -92,6 +92,21 @@ Referencia visual y de flujos: [`docs/prototipo/libro-de-casa.html`](prototipo/l
 - **Implementación:** tokens en `src/app/globals.css` (`@theme`), fuentes con `next/font` en `src/app/layout.tsx`, muestra viva en la ruta `/diseno`. Columna de libro de 430 px centrada sobre el mantel también en escritorio.
 - El prototipo se hizo sin revisión visual renderizada: puede tener defectos de maquetación. Es referencia, no especificación píxel a píxel.
 
+### Rutas (paso 4)
+
+| Pantalla | Ruta | Archivo |
+|---|---|---|
+| Libro (índice) | `/` | `src/app/(libro)/page.tsx` |
+| Hoy | `/hoy` | `src/app/(libro)/hoy/page.tsx` |
+| Añadir | `/anadir` | `src/app/(libro)/anadir/page.tsx` |
+| Despensa | `/despensa` | `src/app/(libro)/despensa/page.tsx` |
+| Receta | `/receta` | `src/app/(libro)/receta/page.tsx` |
+
+- Las cinco viven en el grupo de rutas `src/app/(libro)/`, que no aparece en la URL y solo sirve para compartir el armazón (columna de 430 px y barra inferior). `/diseno` queda fuera a propósito: es muestra de diseño, no una pantalla del producto.
+- La barra inferior (`(libro)/navegacion.tsx`) tiene cuatro secciones: Libro, Hoy, Añadir y Despensa. Receta no es sección: se entra desde el índice y se vuelve con «← Índice».
+- **`/receta` es fija, sin identificador, hasta el paso 8.** Con `cacheComponents` activado, una ruta dinámica (`/receta/[id]`) sin `generateStaticParams` obliga a envolver la barra de navegación en `Suspense`, porque `useSelectedLayoutSegment` no puede resolverse al pregenerar. Se decidirá en el paso 8, cuando haya recetas reales.
+- Las maquetas son huecos honestos (`(libro)/hueco.tsx`): cada uno dice qué irá ahí y en qué paso o fase llega. Nada aparenta funcionar sin funcionar.
+
 ## 9. Privacidad
 
 Son recetas y fotos de familia, no datos clínicos. No guardar nada innecesario. Único tercero: la API de Claude, para procesar lo que la usuaria sube, y la interfaz lo avisa.
@@ -109,7 +124,7 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-13):** pasos 1 y 2 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Paso 3 en curso. La cuenta de la API de Anthropic se crea en el paso 6, no antes.
+**Estado (2026-11-17):** pasos 1, 2 y 3 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Paso 4 en curso. La cuenta de la API de Anthropic se crea en el paso 6, no antes.
 
 | # | Paso | Cómo se prueba |
 |---|---|---|
