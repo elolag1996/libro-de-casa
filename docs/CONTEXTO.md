@@ -91,6 +91,8 @@ Referencia visual y de flujos: [`docs/prototipo/libro-de-casa.html`](prototipo/l
 - **Accesibilidad:** foco visible, contraste legible, respetar `prefers-reduced-motion`. Contraste de tomate sobre papel ≈ 4,5:1 (justo en el límite AA para texto pequeño). **La mostaza solo se usa en puntos y formas, nunca en texto** (≈ 3,2:1).
 - **Implementación:** tokens en `src/app/globals.css` (`@theme`), fuentes con `next/font` en `src/app/layout.tsx`, muestra viva en la ruta `/diseno`. Columna de libro de 430 px centrada sobre el mantel también en escritorio.
 - El prototipo se hizo sin revisión visual renderizada: puede tener defectos de maquetación. Es referencia, no especificación píxel a píxel.
+- **Las reglas de elemento van dentro de `@layer base`.** Una regla suelta (sin capa) gana a las clases de `@layer components` por las reglas de capas de CSS. Pasó con `button { color: inherit }`, que dejó sin color de texto a `.btn` y a los `.chip` oscuros desde el paso 3: botones oscuros con letras invisibles.
+- **Al tocar `globals.css`, reinicia el servidor.** Turbopack con `@tailwindcss/turbopack` sirve la hoja en caché y los cambios de CSS no se ven. Si no basta, apaga el servidor, borra `.next` y vuelve a arrancar.
 
 ### Rutas (paso 4)
 
@@ -124,7 +126,11 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-17):** pasos 1, 2 y 3 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Paso 4 en curso. La cuenta de la API de Anthropic se crea en el paso 6, no antes.
+**Estado (2026-11-17):** pasos 1 a 5 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
+
+Del paso 5 queda una cosa por ver con los ojos: **el clic final del enlace del correo**. La base de datos, la RLS y el guardián de sesión están probados; el canje del enlace falla en local. La causa más probable es que `localhost` obliga a pedir y abrir el enlace en el mismo navegador del mismo ordenador. Se comprueba en la URL de Vercel, donde la dirección es real y el enlace funciona desde el móvil. El servidor ya registra el motivo del fallo en desarrollo (`src/app/auth/confirmar/route.ts`).
+
+Ojo con el tope de correos de Supabase en el plan gratuito: unos pocos por hora. Al probar la entrada, un intento cada vez.
 
 | # | Paso | Cómo se prueba |
 |---|---|---|
