@@ -12,9 +12,14 @@ async function Aviso({ busqueda }: { busqueda: PageProps<"/entrar">["searchParam
   const { fallo } = await busqueda;
   if (!fallo) return null;
 
+  const mensaje =
+    fallo === "caducado"
+      ? "Ese enlace ya no vale: cada enlace sirve una sola vez y caduca. Si pediste varios, solo funciona el del último correo. Pide otro y abre el más reciente."
+      : "No hemos podido entrar con ese enlace. Pide otro y ábrelo desde el correo, sin copiarlo ni pegarlo.";
+
   return (
     <p role="alert" className="mt-3 text-sm text-tomato">
-      Ese enlace ya no vale: los enlaces se usan una sola vez y caducan. Pide otro.
+      {mensaje}
     </p>
   );
 }
