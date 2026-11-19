@@ -13,3 +13,15 @@ export const NOMBRE_ORIGEN: Record<Origen, string> = {
   libro: "Un libro",
   mia: "Mía",
 };
+
+/**
+ * A quién se le preguntan las dudas, según de dónde venga la receta.
+ * `null` cuando no hay nadie a quien preguntar: la receta es tuya.
+ */
+export const A_QUIEN_PREGUNTAR: Record<Origen, string | null> = {
+  mama: "mamá",
+  abuela: "la abuela",
+  tiktok: "quien la subió",
+  libro: "quien te la pasó",
+  mia: null,
+};

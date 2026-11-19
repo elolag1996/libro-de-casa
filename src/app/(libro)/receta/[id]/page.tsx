@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { leerReceta } from "@/lib/recetas/leer";
-import { NOMBRE_ORIGEN } from "@/lib/recetas/origenes";
+import { NOMBRE_ORIGEN, A_QUIEN_PREGUNTAR } from "@/lib/recetas/origenes";
 import Capas from "./capas";
+import Dudas from "./dudas";
 import { subrayarDudas } from "./subrayar";
 
 export default function RecetaPage({ params }: PageProps<"/receta/[id]">) {
@@ -107,23 +108,7 @@ async function Pagina({ params }: { params: PageProps<"/receta/[id]">["params"] 
       />
 
       {receta.dudas.length > 0 && (
-        <section className="paper p-4" aria-labelledby="dudas">
-          <h2 id="dudas" className="font-display text-xl leading-tight">
-            {receta.dudas.length === 1 ? "Queda una duda" : `Quedan ${receta.dudas.length} dudas`}
-          </h2>
-          <ol className="mt-3 grid gap-3">
-            {receta.dudas.map((d) => (
-              <li key={d.id} className="border-t border-[var(--line)] pt-3 text-[15px]">
-                <span className="pg mr-1.5 text-tomato">{d.numero}</span>
-                {d.pregunta}
-                {d.respuesta && (
-                  <p className="mt-1.5 font-hand text-[18px] text-pen">{d.respuesta}</p>
-                )}
-              </li>
-            ))}
-          </ol>
-          <p className="label mt-4">Responder y preguntar a mamá: pasos 9 y 10</p>
-        </section>
+        <Dudas dudas={receta.dudas} quien={A_QUIEN_PREGUNTAR[receta.origen]} />
       )}
     </>
   );
