@@ -140,7 +140,7 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-19):** pasos 1 a 8 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
+**Estado (2026-11-19):** pasos 1 a 9 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
 
 Del paso 5 queda una cosa por ver con los ojos: **el clic final del enlace del correo**. La base de datos, la RLS y el guardián de sesión están probados; el canje del enlace falla en local. La causa más probable es que `localhost` obliga a pedir y abrir el enlace en el mismo navegador del mismo ordenador. Se comprueba en la URL de Vercel, donde la dirección es real y el enlace funciona desde el móvil. El servidor ya registra el motivo del fallo en desarrollo (`src/app/auth/confirmar/route.ts`).
 
@@ -159,6 +159,23 @@ Ojo con el tope de correos de Supabase en el plan gratuito: unos pocos por hora.
 | 9 | Dudas: responder | La respuesta persiste al recargar |
 | 10 | "Preguntar a mamá" | Te lo mandas a ti misma |
 | 11 | Índice del libro + aviso de privacidad | Criterio de "hecha" completo |
+
+## 12 bis. Ideas de la autora (2026-11-19), aún sin planificar
+
+Surgieron al ver el libro funcionando con una receta real. Ninguna está en el plan de Fase 1; se anotan para decidir cuándo entran.
+
+| Idea | Dónde encaja | Estado |
+|---|---|---|
+| Filtrar el índice por origen (todas, Mamá, TikTok…) | Ya era el paso 11 | Previsto |
+| Reenviar los pasos a alguien por WhatsApp | Hermano del paso 10 («Preguntar a mamá»): misma fontanería `wa.me`, otro botón | Por decidir |
+| **Categoría sugerida por la IA** («recetas de cuchara») | Nuevo | En debate, ver abajo |
+| **Borrar recetas** | Nuevo | Acordado: papelera, no borrado inmediato |
+
+**La categoría choca con «la IA no inventa».** «De cuchara» no está escrito en el WhatsApp de mamá: es una deducción. Se resuelve como ya se resuelve la despensa en la Fase 3: la categoría se **sugiere**, se ve que es una sugerencia, y la autora la confirma o la cambia. Nunca se guarda como un hecho sin que ella pase por ahí.
+
+Y se elige de una **lista cerrada**, no libre. Con libertad, en tres meses habría «Recetas de cuchara», «Platos de cuchara», «Cuchara» y «Guisos y potajes» como cuatro categorías distintas, y el filtro dejaría de servir. No se entrena ningún modelo: se le dan instrucciones, la lista y algún ejemplo.
+
+**Borrar es papelera.** Borrar deja un «deshacer» y la receta se va de verdad a los 30 días. Son recetas de familia: un resbalón con el pulgar no puede llevarse el cuaderno de la abuela. Esto no contradice «el original no se toca»: ese principio dice que no se puede **editar**, no que no se pueda tirar la página entera a propósito.
 
 ## 13. Decisiones pendientes
 
