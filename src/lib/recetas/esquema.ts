@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 /**
- * La forma que Claude está obligado a devolver. No es documentación: la API
+ * La forma que el modelo está obligado a devolver. No es documentación: la API
  * valida contra esto, así que lo que no quepa aquí no puede llegar.
  *
  * Dos reglas viven dentro del esquema, no solo en el prompt:

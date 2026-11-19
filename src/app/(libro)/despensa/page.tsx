@@ -10,7 +10,7 @@ export default function DespensaPage() {
         <span className="label">Tu almacén</span>
         <h1 className="mt-2 font-display text-[30px] leading-[1.08] text-balance">Despensa</h1>
         <p className="mt-1.5 text-sm text-ink-soft">
-          Harás una foto a la nevera y Claude lo ordenará por estantes. Lo dudoso lo confirmas tú.
+          Harás una foto a la nevera y la app lo ordenará por estantes. Lo dudoso lo confirmas tú.
         </p>
       </header>
 
