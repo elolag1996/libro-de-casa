@@ -12,7 +12,7 @@ A comer`;
 
 /**
  * Incompleta a propósito: sin cantidades, sin tiempos y con un ingrediente
- * (el perejil) que se compra pero no se usa nunca. Si Claude devuelve esto
+ * (el perejil) que se compra pero no se usa nunca. Si el modelo devuelve esto
  * sin dudas, el prompt está fallando.
  */
 export const INCOMPLETA = `Croquetas como las de la abuela.

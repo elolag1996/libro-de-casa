@@ -85,12 +85,12 @@ export default function Formulario() {
       )}
 
       <button type="submit" className="btn self-start" disabled={enviando}>
-        {enviando ? "Ordenándola…" : "Añadir al libro"}
+        {enviando ? "Cocinando…" : "Añadir al libro"}
       </button>
 
       {enviando && (
         <p role="status" className="text-[13px] text-ink-soft">
-          Claude está leyéndola. Tarda unos segundos.
+          Cocinando la receta: leyéndola y poniéndola en orden. Tarda unos segundos.
         </p>
       )}
     </form>

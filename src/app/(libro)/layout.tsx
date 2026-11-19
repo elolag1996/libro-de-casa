@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import Navegacion from "./navegacion";
+import { BarraSecciones } from "./secciones";
 
 /**
  * Armazón del libro: una columna de 430 px centrada sobre el mantel,
@@ -9,7 +11,12 @@ export default function LibroLayout({ children }: LayoutProps<"/">) {
   return (
     <div className="mx-auto flex w-full max-w-book flex-1 flex-col">
       <main className="flex flex-1 flex-col gap-3.5 px-3.5 pt-4 pb-7">{children}</main>
-      <Navegacion />
+      {/* Saber qué sección está abierta exige esperar a la petición en las
+          direcciones con número de receta. Mientras tanto se pinta la barra
+          sin marcar nada, para que no parpadee. */}
+      <Suspense fallback={<BarraSecciones />}>
+        <Navegacion />
+      </Suspense>
     </div>
   );
 }
