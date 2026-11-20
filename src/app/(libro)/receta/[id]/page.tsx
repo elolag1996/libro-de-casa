@@ -2,9 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { leerReceta } from "@/lib/recetas/leer";
-import { NOMBRE_ORIGEN, A_QUIEN_PREGUNTAR } from "@/lib/recetas/origenes";
+import { PROCEDENCIA, A_QUIEN_PREGUNTAR } from "@/lib/recetas/origenes";
+import { mensajeDudas, mensajePasos } from "@/lib/recetas/mensajes";
 import Capas from "./capas";
 import Dudas from "./dudas";
+import Compartir from "./compartir";
 import { subrayarDudas } from "./subrayar";
 
 export default function RecetaPage({ params }: PageProps<"/receta/[id]">) {
@@ -110,15 +112,21 @@ async function Pagina({ params }: { params: PageProps<"/receta/[id]">["params"] 
       {receta.dudas.length > 0 && (
         <Dudas dudas={receta.dudas} quien={A_QUIEN_PREGUNTAR[receta.origen]} />
       )}
+
+      <Compartir
+        dudas={mensajeDudas(receta)}
+        pasos={mensajePasos(receta)}
+        aQuien={A_QUIEN_PREGUNTAR[receta.origen]}
+      />
     </>
   );
 }
 
-function Cabecera({ receta }: { receta: { titulo: string; pagina: number | null; origen: keyof typeof NOMBRE_ORIGEN } }) {
+function Cabecera({ receta }: { receta: { titulo: string; pagina: number | null; origen: keyof typeof PROCEDENCIA } }) {
   return (
     <>
       <div className="runhead">
-        <span className="label">De {NOMBRE_ORIGEN[receta.origen]}</span>
+        <span className="label">{PROCEDENCIA[receta.origen]}</span>
         <span className="label">Pág. {receta.pagina ?? "—"}</span>
       </div>
       <h1 className="mb-4 font-display text-[26px] leading-[1.1] text-balance">{receta.titulo}</h1>
