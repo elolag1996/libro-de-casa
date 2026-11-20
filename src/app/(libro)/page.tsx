@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { listarRecetas } from "@/lib/recetas/leer";
-import { NOMBRE_ORIGEN } from "@/lib/recetas/origenes";
+import { PROCEDENCIA } from "@/lib/recetas/origenes";
 import Hueco from "./hueco";
 
 /** Leer de la base de datos exige esperar a la petición: va dentro de Suspense. */
@@ -37,7 +37,7 @@ async function Indice() {
               </span>
               <span className="tag mt-1.5">
                 <i />
-                De {NOMBRE_ORIGEN[r.origen]}
+                {PROCEDENCIA[r.origen]}
                 {r.dudasAbiertas > 0 &&
                   ` · ${r.dudasAbiertas} ${r.dudasAbiertas === 1 ? "duda abierta" : "dudas abiertas"}`}
               </span>

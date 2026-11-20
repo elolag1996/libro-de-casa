@@ -77,7 +77,7 @@ Mobile-first: se usará sobre todo desde el móvil.
 1. **structure_recipe(texto | imagen)** → JSON con título, personas, tiempos, ingredientes, pasos, notas de voz y dudas con su fragmento. No inventar cantidades, conservar expresiones, toda ambigüedad es duda, devolver el original intacto.
 2. **detect_pantry(imagen)** → productos con nivel de confianza; los de baja confianza van como "¿Queso fresco?".
 3. **tiktok_to_recipe(enlace)** → descripción pública; si no hay receta, "necesito una captura".
-4. **mom_message(dudas)** → mensaje de WhatsApp natural y breve con preguntas numeradas.
+4. ~~**mom_message(dudas)**~~ → **descartada como tarea de IA (2026-11-20).** El mensaje lo arma una plantilla fija en `src/lib/recetas/mensajes.ts`: es instantáneo, no cuesta una llamada y sale siempre igual. Sobre todo, evita que la IA reescriba las preguntas: una duda es literalmente lo que no sabemos, y pasarla por un modelo es dejar que la suavice o funda dos en una. Si algún día el mensaje suena rígido, volver a esto no toca nada más.
 5. **Cruce despensa/recetas** → lógica normal en código (nombres normalizados, coincidencia flexible); Claude solo normaliza nombres si hace falta.
 
 ## 8. Diseño
@@ -110,6 +110,20 @@ Referencia visual y de flujos: [`docs/prototipo/libro-de-casa.html`](prototipo/l
 - Las maquetas son huecos honestos (`(libro)/hueco.tsx`): cada uno dice qué irá ahí y en qué paso o fase llega. Nada aparenta funcionar sin funcionar.
 - **Una maqueta con datos inventados al lado de datos reales miente.** La maqueta de receta del paso 4 (una fabada falsa en la página 14) confundió a la autora en cuanto guardó su primera receta de verdad: parecía que la app no había guardado nada. Por eso el índice real se adelantó del paso 11 al 8. Regla: en cuanto una pantalla pueda tener datos de verdad, su maqueta se borra.
 
+### Los mensajes de WhatsApp (paso 10)
+
+En la página de receta hay una tarjeta «Mandarlo por WhatsApp» (`receta/[id]/compartir.tsx`) con dos mensajes, los dos armados por plantilla en `src/lib/recetas/mensajes.ts`:
+
+- **Las dudas abiertas**, numeradas con **el mismo número que tienen en la página**. Si mamá contesta «la 3», tiene que ser la 3 también en el libro. Las dudas ya respondidas no van.
+- **Los pasos**, la versión ordenada, para quien vaya a cocinar. El original no se manda: se queda en el libro.
+
+Cada uno tiene su botón de WhatsApp y su botón de copiar, y debajo se ve el texto tal cual va a salir. **Nada se envía solo:** el enlace `wa.me` abre WhatsApp con el mensaje escrito y el enviar lo pulsa una persona. Si el navegador no da permiso de portapapeles, el botón de copiar calla y queda el de WhatsApp.
+
+Dos tablas nuevas en `origenes.ts`, porque el origen no se dice igual en un botón que dentro de una frase:
+
+- `VOCATIVO`: cómo se empieza el WhatsApp («Mamá,», «Abuela,»). Es `null` en TikTok, un libro y mía: ahí no hay a quién escribir, así que el mensaje empieza sin vocativo en vez de inventarse un destinatario.
+- `PROCEDENCIA`: «de mamá», «de la abuela». Sustituye al «De Mamá» del índice y de la cabecera. `NOMBRE_ORIGEN` se queda para los botones sueltos del formulario de añadir.
+
 ## 9. Privacidad
 
 Son recetas y fotos de familia, no datos clínicos. No guardar nada innecesario. Único tercero: la API de Claude, para procesar lo que la usuaria sube, y la interfaz lo avisa.
@@ -140,7 +154,7 @@ Pego el texto de la fabada, elijo "Mamá", obtengo las dos pestañas con 3 dudas
 
 ## 12. Plan de Fase 1 (un PR por paso)
 
-**Estado (2026-11-19):** pasos 1 a 9 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente: paso 6, que es cuando se crea la cuenta de la API de Anthropic, no antes.
+**Estado (2026-11-20):** pasos 1 a 10 hechos (repo privado `elolag1996/libro-de-casa`, desplegado en Vercel desde `main`). Siguiente y último de la Fase 1: paso 11, el índice del libro con filtro por origen y el aviso de privacidad.
 
 Del paso 5 queda una cosa por ver con los ojos: **el clic final del enlace del correo**. La base de datos, la RLS y el guardián de sesión están probados; el canje del enlace falla en local. La causa más probable es que `localhost` obliga a pedir y abrir el enlace en el mismo navegador del mismo ordenador. Se comprueba en la URL de Vercel, donde la dirección es real y el enlace funciona desde el móvil. El servidor ya registra el motivo del fallo en desarrollo (`src/app/auth/confirmar/route.ts`).
 
@@ -167,7 +181,7 @@ Surgieron al ver el libro funcionando con una receta real. Ninguna está en el p
 | Idea | Dónde encaja | Estado |
 |---|---|---|
 | Filtrar el índice por origen (todas, Mamá, TikTok…) | Ya era el paso 11 | Previsto |
-| Reenviar los pasos a alguien por WhatsApp | Hermano del paso 10 («Preguntar a mamá»): misma fontanería `wa.me`, otro botón | Por decidir |
+| Reenviar los pasos a alguien por WhatsApp | Hermano del paso 10 («Preguntar a mamá»): misma fontanería `wa.me`, otro botón | **Hecha en el paso 10** (2026-11-20) |
 | **Categoría sugerida por la IA** («recetas de cuchara») | Nuevo | En debate, ver abajo |
 | **Borrar recetas** | Nuevo | Acordado: papelera, no borrado inmediato |
 

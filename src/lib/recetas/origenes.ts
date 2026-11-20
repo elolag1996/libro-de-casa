@@ -25,3 +25,27 @@ export const A_QUIEN_PREGUNTAR: Record<Origen, string | null> = {
   libro: "quien te la pasó",
   mia: null,
 };
+
+/**
+ * Cómo se empieza un WhatsApp a esa persona. `null` cuando no hay un nombre
+ * natural con el que empezar («Oye, quien la subió a TikTok…» no se dice).
+ */
+export const VOCATIVO: Record<Origen, string | null> = {
+  mama: "Mamá",
+  abuela: "Abuela",
+  tiktok: null,
+  libro: null,
+  mia: null,
+};
+
+/**
+ * El origen dicho dentro de una frase. `NOMBRE_ORIGEN` sirve para botones
+ * sueltos; esto para escribir: «de la abuela», no «de Abuela».
+ */
+export const PROCEDENCIA: Record<Origen, string> = {
+  mama: "de mamá",
+  abuela: "de la abuela",
+  tiktok: "de TikTok",
+  libro: "de un libro",
+  mia: "mía",
+};
